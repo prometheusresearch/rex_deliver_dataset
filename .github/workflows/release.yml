@@ -1,0 +1,20 @@
+name: Publish Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v1
+
+      - name: Run GoReleaser
+        uses: docker://goreleaser/goreleaser:v0.118
+        with:
+          args: release
+        if: success()
+
