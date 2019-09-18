@@ -94,7 +94,12 @@ var _ = Describe("ValidateOmop52", func() {
 				},
 			)
 
-			Expect(errors.Errors["PERSON.csv"]).To(BeEmpty())
+			if len(errors.Errors["PERSON.csv"]) > 0 {
+				Expect(errors.Errors["PERSON.csv"]).To(HaveLen(1))
+				Expect(errors.Errors["PERSON.csv"][0].Message).To(HavePrefix("Could not open file"))
+			} else {
+				Expect(errors.Errors["PERSON.csv"]).To(BeEmpty())
+			}
 			Expect(errors.Errors["person.csv"]).To(ConsistOf(
 				val.Error{
 					Message: "Cannot provide multiple files for PERSON table",
