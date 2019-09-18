@@ -6,11 +6,14 @@ init::
 	@go install github.com/mgechev/revive
 	@go install github.com/wadey/gocovmerge
 
-test::
+test:: lint
 	@${GOBIN}/ginkgo -p -cover -coverprofile=coverage.out -r
 
 test-watch::
 	@${GOBIN}/ginkgo watch -p -cover -coverprofile=coverage.out -r
+
+test-publish::
+	@goreleaser release --snapshot --skip-publish --rm-dist
 
 coverage::
 	@find . -name coverage.out | xargs gocovmerge > total_coverage.out
@@ -26,4 +29,6 @@ clean::
 	@-chmod -R u+w .vendor
 	@rm -rf dist .vendor total_coverage.out
 	@find . -name '*coverage.out' -delete
+
+ci:: init test
 

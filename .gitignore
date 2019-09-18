@@ -1,3 +1,4 @@
 .vendor
 dist
 coverage.out
+total_coverage.out

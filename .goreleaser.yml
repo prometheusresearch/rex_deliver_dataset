@@ -1,0 +1,58 @@
+project_name: rex_deliver_dataset
+
+builds:
+  - main: ./cmd/rex_deliver_dataset.go
+    binary: rex_deliver_dataset
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    goos:
+      - linux
+      - darwin
+      - windows
+      - freebsd
+      - openbsd
+      - netbsd
+    goarch:
+      - 386
+      - amd64
+    ignore:
+      - goos: darwin
+        goarch: 386
+
+archives:
+  - replacements:
+      darwin: macos
+      amd64: 64bit
+      386: 32bit
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  skip: true
+
+nfpms:
+  - homepage: https://github.com/prometheusresearch/rex_deliver_dataset
+    maintainer: "Prometheus Research, LLC <contact@prometheusresearch.com>"
+    description: A tool for delivering datasets to a RexRegistry system.
+    license: AGPL-3.0
+    formats:
+      - deb
+      - rpm
+
+# brews:
+#   - github:
+#       owner: prometheusresearch
+#       name: homebrew-public
+#     folder: Formula
+#     homepage: https://github.com/prometheusresearch/rex_deliver_dataset
+#     description: A tool for delivering datasets to a RexRegistry system.
+
+# scoop:
+#   bucket:
+#     owner: prometheusresearch
+#     name: scoop-public
+#   description: A tool for delivering datasets to a RexRegistry system.
+#   license: AGPL-3.0
+
