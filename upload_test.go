@@ -82,7 +82,8 @@ var _ = Describe("Upload", func() {
 
 	Describe("GetURL", func() {
 		It("Works", func() {
-			uploader, _ := rdd.NewUploader(makeTempConfig())
+			uploader, err := rdd.NewUploader(makeTempConfig())
+			Expect(err).To(Succeed())
 			url := uploader.GetURL()
 			Expect(url).To(HavePrefix("file:///"))
 		})
@@ -95,14 +96,15 @@ var _ = Describe("Upload", func() {
 	Describe("UploadFile", func() {
 		It("Works", func() {
 			config := makeTempConfig()
-			uploader, _ := rdd.NewUploader(config)
+			uploader, err := rdd.NewUploader(config)
+			Expect(err).To(Succeed())
 
 			file := rdd.File{
 				Name:     testFileName,
 				FullPath: testFilePath,
 			}
 
-			err := uploader.UploadFile(&file)
+			err = uploader.UploadFile(&file)
 			Expect(err).To(Succeed())
 
 			filePath := findFile(config.Storage["path"], testFileName)
@@ -115,14 +117,15 @@ var _ = Describe("Upload", func() {
 
 		It("Handles missing files", func() {
 			config := makeTempConfig()
-			uploader, _ := rdd.NewUploader(config)
+			uploader, err := rdd.NewUploader(config)
+			Expect(err).To(Succeed())
 
 			file := rdd.File{
 				Name:     testFileName,
 				FullPath: "./doesntexist",
 			}
 
-			err := uploader.UploadFile(&file)
+			err = uploader.UploadFile(&file)
 			Expect(err).To(Not(Succeed()))
 		})
 	})
@@ -130,7 +133,8 @@ var _ = Describe("Upload", func() {
 	Describe("UploadFiles", func() {
 		It("Works", func() {
 			config := makeTempConfig()
-			uploader, _ := rdd.NewUploader(config)
+			uploader, err := rdd.NewUploader(config)
+			Expect(err).To(Succeed())
 
 			files := []rdd.File{
 				{
@@ -139,7 +143,7 @@ var _ = Describe("Upload", func() {
 				},
 			}
 
-			err := uploader.UploadFiles(files)
+			err = uploader.UploadFiles(files)
 			Expect(err).To(Succeed())
 
 			filePath := findFile(config.Storage["path"], testFileName)
@@ -152,7 +156,8 @@ var _ = Describe("Upload", func() {
 
 		It("Handles missing files", func() {
 			config := makeTempConfig()
-			uploader, _ := rdd.NewUploader(config)
+			uploader, err := rdd.NewUploader(config)
+			Expect(err).To(Succeed())
 
 			files := []rdd.File{
 				{
@@ -161,7 +166,7 @@ var _ = Describe("Upload", func() {
 				},
 			}
 
-			err := uploader.UploadFiles(files)
+			err = uploader.UploadFiles(files)
 			Expect(err).To(Not(Succeed()))
 		})
 	})
@@ -170,9 +175,10 @@ var _ = Describe("Upload", func() {
 		It("Works", func() {
 			content := "foobar"
 			config := makeTempConfig()
-			uploader, _ := rdd.NewUploader(config)
+			uploader, err := rdd.NewUploader(config)
+			Expect(err).To(Succeed())
 
-			err := uploader.UploadContent("somename", []byte(content))
+			err = uploader.UploadContent("somename", []byte(content))
 			Expect(err).To(Succeed())
 
 			filePath := findFile(config.Storage["path"], "somename")

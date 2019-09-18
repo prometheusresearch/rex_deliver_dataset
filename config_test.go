@@ -19,15 +19,14 @@
 package rexdeliverdataset_test
 
 import (
-	"runtime"
 	"os"
+	"runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	rdd "github.com/prometheusresearch/rex_deliver_dataset"
 )
-
 
 var _ = Describe("Config", func() {
 	var TEST_PATH string
