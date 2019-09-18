@@ -1,0 +1,4 @@
+dose_era_id,person_id,drug_concept_id,unit_concept_id,dose_value,dose_era_start_date,dose_era_end_date
+1,1,1,1,123.456,2001-02-03,2001-02-03
+1,1,1,1,,2001-02-03,2001-02-03
+1,1,1,1,not-a-float,2001-02-03,2001-02-03
