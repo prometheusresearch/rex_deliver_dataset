@@ -19,6 +19,7 @@
 package rexdeliverdataset_test
 
 import (
+	"runtime"
 	"time"
 
 	. "github.com/onsi/ginkgo"
@@ -32,8 +33,14 @@ var _ = Describe("Utility Functions", func() {
 		It("Resolve tildes", func() {
 			path, err := rdd.AbsPath("~/foobar")
 			Expect(err).To(Succeed())
-			Expect(path).To(HavePrefix("/"))
-			Expect(path).To(HaveSuffix("/foobar"))
+
+			if runtime.GOOS == "windows" {
+				Expect(path[1:3]).To(Equal(":\\"))
+				Expect(path).To(HaveSuffix("\\foobar"))
+			} else {
+				Expect(path).To(HavePrefix("/"))
+				Expect(path).To(HaveSuffix("/foobar"))
+			}
 		})
 	})
 

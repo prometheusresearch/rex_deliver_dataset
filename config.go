@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"sort"
 	"strings"
 	"time"
@@ -103,12 +104,8 @@ func checkStorageProps(storage map[string]string) error {
 	}
 
 	if storage["path"] != "" {
-		sep := string(os.PathSeparator)
-		if !strings.HasPrefix(storage["path"], sep) {
-			return fmt.Errorf(
-				"storage.path must be an absolute path (starting with a %s)",
-				sep,
-			)
+		if !path.IsAbs(storage["path"]) {
+			return fmt.Errorf("storage.path must be an absolute path")
 		}
 	}
 
@@ -148,11 +145,11 @@ func (config Configuration) Validate() error {
 func ReadConfig(configPath string) (Configuration, error) {
 	cfg := NewConfiguration()
 
-	path, err := AbsPath(configPath)
+	cfgPath, err := AbsPath(configPath)
 	if err != nil {
 		return cfg, err
 	}
-	cfg.ConfigurationPath = path
+	cfg.ConfigurationPath = cfgPath
 
 	file, err := os.Open(cfg.ConfigurationPath)
 	if err != nil {

@@ -19,6 +19,7 @@
 package rexdeliverdataset_test
 
 import (
+	"runtime"
 	"os"
 
 	. "github.com/onsi/ginkgo"
@@ -27,7 +28,15 @@ import (
 	rdd "github.com/prometheusresearch/rex_deliver_dataset"
 )
 
+
 var _ = Describe("Config", func() {
+	var TEST_PATH string
+	if runtime.GOOS == "windows" {
+		TEST_PATH = "c:\\\\foo"
+	} else {
+		TEST_PATH = "/foo"
+	}
+
 	Describe("NewConfiguration", func() {
 		It("Works", func() {
 			cfg := rdd.NewConfiguration()
@@ -49,7 +58,7 @@ var _ = Describe("Config", func() {
 			Expect(err).To(MatchError("storage requires container property"))
 
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = "/bar"
+			cfg.Storage["path"] = TEST_PATH
 			err = cfg.Validate()
 			Expect(err).To(Succeed())
 		})
@@ -99,7 +108,7 @@ var _ = Describe("Config", func() {
 			err := cfg.Validate()
 			Expect(err).To(MatchError("storage requires path property when kind=local"))
 
-			cfg.Storage["path"] = "/foo"
+			cfg.Storage["path"] = TEST_PATH
 			err = cfg.Validate()
 			Expect(err).To(Succeed())
 		})
@@ -122,14 +131,14 @@ var _ = Describe("Config", func() {
 			cfg.Storage["path"] = "foo"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("storage.path must be an absolute path (starting with a /)"))
+			Expect(err).To(MatchError("storage.path must be an absolute path"))
 		})
 
 		It("Handles Bad Dataset Type", func() {
 			cfg := rdd.NewConfiguration()
 			cfg.Storage["kind"] = "local"
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = "/foo"
+			cfg.Storage["path"] = TEST_PATH
 			cfg.DatasetType = "bar"
 
 			err := cfg.Validate()
@@ -140,7 +149,7 @@ var _ = Describe("Config", func() {
 			cfg := rdd.NewConfiguration()
 			cfg.Storage["kind"] = "local"
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = "/foo"
+			cfg.Storage["path"] = TEST_PATH
 
 			err := cfg.Validate()
 			Expect(err).To(MatchError("dataset_type must be one of: omop-5.2-csv"))
