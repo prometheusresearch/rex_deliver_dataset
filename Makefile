@@ -20,7 +20,7 @@ coverage::
 	@go tool cover -html=total_coverage.out
 
 lint::
-	@${GOBIN}/revive -config revive.toml -formatter stylish -exclude .vendor ./...
+	@${GOBIN}/revive -config revive.toml -formatter stylish ./...
 
 fmt::
 	@gofmt -s -w *.go cmd validation
