@@ -24,7 +24,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 	"sort"
 	"time"
 
@@ -47,7 +47,7 @@ type Arguments struct {
 
 func parseArguments() (Arguments, error) {
 	app := kingpin.New(
-		path.Base(os.Args[0]),
+		filepath.Base(os.Args[0]),
 		"Delivers a set of files to a cloud storage container for intake into"+
 			" a RexRegistry system.",
 	)
