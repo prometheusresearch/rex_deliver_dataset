@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
@@ -104,7 +104,7 @@ func checkStorageProps(storage map[string]string) error {
 	}
 
 	if storage["path"] != "" {
-		if !path.IsAbs(storage["path"]) {
+		if !filepath.IsAbs(storage["path"]) {
 			return fmt.Errorf("storage.path must be an absolute path")
 		}
 	}
