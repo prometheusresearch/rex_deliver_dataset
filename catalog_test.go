@@ -35,28 +35,22 @@ var _ = Describe("Catalog", func() {
 			files, err := rdd.CatalogDirectory(path)
 			Expect(err).To(Succeed())
 
-			var SIZE_ADJ int64
-			if runtime.GOOS == "windows" {
-				// Windows newlines are 2 bytes; need to adjust.
-				SIZE_ADJ = 1
-			}
-
 			Expect(files).To(ContainElement(rdd.File{
 				Name:     "foo",
 				FullPath: filepath.Join(path, "foo"),
-				Size:     6 + SIZE_ADJ,
+				Size:     6,
 			}))
 
 			Expect(files).To(ContainElement(rdd.File{
 				Name:     "bar",
 				FullPath: filepath.Join(path, "bar"),
-				Size:     15 + SIZE_ADJ,
+				Size:     15,
 			}))
 
 			Expect(files).To(ContainElement(rdd.File{
 				Name:     "subdir/baz",
 				FullPath: filepath.Join(path, "subdir/baz"),
-				Size:     26 + SIZE_ADJ,
+				Size:     26,
 			}))
 
 			if runtime.GOOS == "windows" {

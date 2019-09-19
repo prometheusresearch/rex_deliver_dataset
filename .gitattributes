@@ -1,0 +1,3 @@
+# Keep Git from mangling our test files
+test_datasets/** binary
+
