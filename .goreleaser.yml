@@ -41,18 +41,19 @@ nfpms:
       - deb
       - rpm
 
-# brews:
-#   - github:
-#       owner: prometheusresearch
-#       name: homebrew-public
-#     folder: Formula
-#     homepage: https://github.com/prometheusresearch/rex_deliver_dataset
-#     description: A tool for delivering datasets to a RexRegistry system.
+brews:
+  - github:
+      owner: prometheusresearch
+      name: homebrew-public
+    folder: Formula
+    homepage: https://github.com/prometheusresearch/rex_deliver_dataset
+    description: A tool for delivering datasets to a RexRegistry system.
 
-# scoop:
-#   bucket:
-#     owner: prometheusresearch
-#     name: scoop-public
-#   description: A tool for delivering datasets to a RexRegistry system.
-#   license: AGPL-3.0
+scoop:
+  bucket:
+    owner: prometheusresearch
+    name: scoop-public
+  homepage: https://github.com/prometheusresearch/rex_deliver_dataset
+  description: A tool for delivering datasets to a RexRegistry system.
+  license: AGPL-3.0
 
