@@ -21,6 +21,7 @@ package rexdeliverdataset
 import (
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type File struct {
@@ -45,7 +46,7 @@ func CatalogDirectory(rootPath string) ([]File, error) {
 					return err
 				}
 				files = append(files, File{
-					Name:     rel,
+					Name:     strings.ReplaceAll(rel, "\\", "/"),
 					FullPath: path,
 					Size:     info.Size(),
 				})
