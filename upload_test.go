@@ -21,7 +21,6 @@ package rexdeliverdataset_test
 import (
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 
 	. "github.com/onsi/ginkgo"
@@ -90,7 +89,7 @@ var _ = Describe("Upload", func() {
 	})
 
 	testFilePath, _ := rdd.AbsPath("./test_datasets/omop_52_csv/person.csv")
-	testFileName := path.Base(testFilePath)
+	testFileName := filepath.Base(testFilePath)
 	testFileContent := getFileContent(testFilePath)
 
 	Describe("UploadFile", func() {

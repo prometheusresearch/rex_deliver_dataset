@@ -20,7 +20,7 @@ package omop52csv
 
 import (
 	"fmt"
-	"path"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -498,8 +498,8 @@ var (
 )
 
 func getTableDefinitionForFile(name string) (string, omopTable) {
-	baseName := path.Base(name)
-	ext := path.Ext(baseName)
+	baseName := filepath.Base(name)
+	ext := filepath.Ext(baseName)
 	tableName := strings.ToUpper(baseName[:len(baseName)-len(ext)])
 	return tableName, tableDefinitions[tableName]
 }

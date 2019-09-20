@@ -23,7 +23,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path"
 	"path/filepath"
 	"strings"
 
@@ -167,11 +166,11 @@ func ValidateOmop52(basePath string, files []string) val.ErrorCollection {
 	for i := range files {
 		name := files[i]
 
-		baseName := path.Base(name)
+		baseName := filepath.Base(name)
 		if name != baseName {
 			errors.FileError(name, "Files must not be in subdirectories")
 		}
-		ext := strings.ToUpper(path.Ext(baseName))
+		ext := strings.ToUpper(filepath.Ext(baseName))
 		if ext != ".CSV" {
 			errors.FileError(name, "Files must have a .csv extension")
 		}
