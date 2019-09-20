@@ -54,7 +54,7 @@ func parseArguments() (Arguments, error) {
 
 	configPath := app.Flag(
 		"config",
-		"Path to the configuration file to use.",
+		"Path to the configuration file to use. This is required.",
 	).Short('c').OverrideDefaultFromEnvar("RDD_CONFIG").Required().String()
 
 	validationErrors := app.Flag(
@@ -223,26 +223,26 @@ func uploadFiles(config rdd.Configuration, files []rdd.File) error {
 	fmt.Printf("Uploading Files...\n")
 	var numFiles int
 	var totalBytes int64
-	for _, file := range files {
+	for idx := range files {
 		fmt.Printf(
 			"  %s : %s",
-			file.Name,
-			rdd.FormatBytes(float64(file.Size)),
+			files[idx].Name,
+			rdd.FormatBytes(float64(files[idx].Size)),
 		)
 		start := time.Now()
 
-		err = uploader.UploadFile(&file)
+		err = uploader.UploadFile(&files[idx])
 		if err != nil {
 			fmt.Printf(" ..failure!\n")
 			return err
 		}
 
 		elapsed := time.Now().Sub(start).Truncate(time.Microsecond)
-		speed := float64(file.Size) / elapsed.Seconds()
+		speed := float64(files[idx].Size) / elapsed.Seconds()
 		fmt.Printf(" : %s : %s/s\n", elapsed, rdd.FormatBytes(speed))
 
 		numFiles++
-		totalBytes += file.Size
+		totalBytes += files[idx].Size
 	}
 
 	fmt.Printf("Uploading Manifest...\n")
