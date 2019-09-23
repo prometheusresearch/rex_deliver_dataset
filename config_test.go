@@ -29,13 +29,6 @@ import (
 )
 
 var _ = Describe("Config", func() {
-	var TEST_PATH string
-	if runtime.GOOS == "windows" {
-		TEST_PATH = "c:\\\\foo"
-	} else {
-		TEST_PATH = "/foo"
-	}
-
 	Describe("NewConfiguration", func() {
 		It("Works", func() {
 			cfg := rdd.NewConfiguration()
@@ -52,12 +45,12 @@ var _ = Describe("Config", func() {
 			err := cfg.Validate()
 			Expect(err).To(MatchError("storage requires kind property"))
 
-			cfg.Storage["kind"] = "local"
+			cfg.Storage["kind"] = "gcs"
 			err = cfg.Validate()
 			Expect(err).To(MatchError("storage requires container property"))
 
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = TEST_PATH
+			cfg.Storage["credentials_json"] = "/some/file.json"
 			err = cfg.Validate()
 			Expect(err).To(Succeed())
 		})
@@ -105,11 +98,17 @@ var _ = Describe("Config", func() {
 			cfg.Storage["container"] = "test"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("storage requires path property when kind=local"))
 
-			cfg.Storage["path"] = TEST_PATH
-			err = cfg.Validate()
-			Expect(err).To(Succeed())
+			if runtime.GOOS == "windows" {
+				Expect(err).To(MatchError("storage.kind cannot be local on Windows systems"))
+
+			} else {
+				Expect(err).To(MatchError("storage requires path property when kind=local"))
+
+				cfg.Storage["path"] = "/foo"
+				err = cfg.Validate()
+				Expect(err).To(Succeed())
+			}
 		})
 
 		It("Handles Unknown Kind", func() {
@@ -125,8 +124,9 @@ var _ = Describe("Config", func() {
 		It("Handles Bad Path", func() {
 			cfg := rdd.NewConfiguration()
 			cfg.DatasetType = "omop-5.2-csv"
-			cfg.Storage["kind"] = "local"
+			cfg.Storage["kind"] = "gcs"
 			cfg.Storage["container"] = "test"
+			cfg.Storage["credentials_json"] = "/some/file.json"
 			cfg.Storage["path"] = "foo"
 
 			err := cfg.Validate()
@@ -135,9 +135,9 @@ var _ = Describe("Config", func() {
 
 		It("Handles Bad Dataset Type", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.Storage["kind"] = "local"
+			cfg.Storage["kind"] = "gcs"
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = TEST_PATH
+			cfg.Storage["credentials_json"] = "/some/file.json"
 			cfg.DatasetType = "bar"
 
 			err := cfg.Validate()
@@ -146,9 +146,9 @@ var _ = Describe("Config", func() {
 
 		It("Handles Missing Dataset Type", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.Storage["kind"] = "local"
+			cfg.Storage["kind"] = "gcs"
 			cfg.Storage["container"] = "test"
-			cfg.Storage["path"] = TEST_PATH
+			cfg.Storage["credentials_json"] = "/some/file.json"
 
 			err := cfg.Validate()
 			Expect(err).To(MatchError("dataset_type must be one of: omop-5.2-csv"))

@@ -1,3 +1,5 @@
+// +build !windows
+
 /*
 	RexRegistry Dataset Delivery
     Copyright (C) 2019 Prometheus Research, LLC

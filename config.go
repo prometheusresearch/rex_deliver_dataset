@@ -22,7 +22,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path/filepath"
+	"path"
+	"runtime"
 	"sort"
 	"strings"
 	"time"
@@ -71,14 +72,7 @@ func NewConfiguration() Configuration {
 	}
 }
 
-func checkStorageProps(storage map[string]string) error {
-	for _, property := range commonStorageProperties {
-		value := storage[property]
-		if value == "" {
-			return fmt.Errorf("storage requires %s property", property)
-		}
-	}
-
+func checkStorageKindProps(storage map[string]string) error {
 	neededProps := implStorageProperties[storage["kind"]]
 	if neededProps != nil {
 		for _, property := range neededProps {
@@ -103,8 +97,30 @@ func checkStorageProps(storage map[string]string) error {
 		)
 	}
 
+	return nil
+}
+
+func checkStorageProps(storage map[string]string) error {
+	for _, property := range commonStorageProperties {
+		value := storage[property]
+		if value == "" {
+			return fmt.Errorf("storage requires %s property", property)
+		}
+	}
+
+	if runtime.GOOS == "windows" && storage["kind"] == "local" {
+		return fmt.Errorf(
+			"storage.kind cannot be local on Windows systems",
+		)
+	}
+
+	err := checkStorageKindProps(storage)
+	if err != nil {
+		return err
+	}
+
 	if storage["path"] != "" {
-		if !filepath.IsAbs(storage["path"]) {
+		if !path.IsAbs(storage["path"]) {
 			return fmt.Errorf("storage.path must be an absolute path")
 		}
 	}
@@ -119,12 +135,6 @@ func (config Configuration) Validate() error {
 	}
 
 	allTypes := val.GetAvailableTypes()
-	if config.DatasetType == "" {
-		return fmt.Errorf(
-			"dataset_type must be one of: %s",
-			strings.Join(allTypes, ", "),
-		)
-	}
 	found := false
 	for _, dsType := range allTypes {
 		if config.DatasetType == dsType {
