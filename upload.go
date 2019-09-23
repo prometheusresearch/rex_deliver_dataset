@@ -22,7 +22,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"path/filepath"
+	"path"
 
 	"github.com/c2fo/vfs/v5"
 	gs "github.com/c2fo/vfs/v5/backend/gs"
@@ -111,11 +111,11 @@ func (ul internalUploader) GetURL() string {
 func getLocation(config Configuration) (vfs.Location, error) {
 	var fs vfs.FileSystem
 
-	sep := string(filepath.Separator)
+	sep := "/"
 
-	path := config.Storage["path"]
-	if path == "" {
-		path = sep
+	cPath := config.Storage["path"]
+	if cPath == "" {
+		cPath = sep
 	}
 
 	container := config.Storage["container"]
@@ -145,7 +145,7 @@ func getLocation(config Configuration) (vfs.Location, error) {
 	case "local":
 		fs = &local.FileSystem{}
 		container = ""
-		path = filepath.Join(
+		cPath = path.Join(
 			config.Storage["path"],
 			config.Storage["container"],
 		)
@@ -157,10 +157,10 @@ func getLocation(config Configuration) (vfs.Location, error) {
 		)
 	}
 
-	path = filepath.Join(
-		path,
+	cPath = path.Join(
+		cPath,
 		config.ExecutionTime.UTC().Format("20060102150405"),
 	) + sep
 
-	return fs.NewLocation(container, path)
+	return fs.NewLocation(container, cPath)
 }
