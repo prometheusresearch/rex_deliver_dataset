@@ -48,7 +48,7 @@ var (
 			"secret_key",
 			"region",
 		},
-		"gcs": {
+		"gs": {
 			"credentials_json",
 		},
 		"local": {

@@ -25,7 +25,7 @@ import (
 	"path/filepath"
 
 	"github.com/c2fo/vfs/v5"
-	gcs "github.com/c2fo/vfs/v5/backend/gs"
+	gs "github.com/c2fo/vfs/v5/backend/gs"
 	local "github.com/c2fo/vfs/v5/backend/os"
 	s3 "github.com/c2fo/vfs/v5/backend/s3"
 )
@@ -132,10 +132,10 @@ func getLocation(config Configuration) (vfs.Location, error) {
 		)
 		fs = sfs
 
-	case "gcs":
-		sfs := gcs.NewFileSystem()
+	case "gs":
+		sfs := gs.NewFileSystem()
 		sfs = sfs.WithOptions(
-			gcs.Options{
+			gs.Options{
 				CredentialFile: config.Storage["credentials_json"],
 				Scopes:         []string{"ScopeReadWrite"},
 			},

@@ -45,7 +45,7 @@ var _ = Describe("Config", func() {
 			err := cfg.Validate()
 			Expect(err).To(MatchError("storage requires kind property"))
 
-			cfg.Storage["kind"] = "gcs"
+			cfg.Storage["kind"] = "gs"
 			err = cfg.Validate()
 			Expect(err).To(MatchError("storage requires container property"))
 
@@ -80,11 +80,11 @@ var _ = Describe("Config", func() {
 		It("Checks GCS Storage", func() {
 			cfg := rdd.NewConfiguration()
 			cfg.DatasetType = "omop-5.2-csv"
-			cfg.Storage["kind"] = "gcs"
+			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("storage requires credentials_json property when kind=gcs"))
+			Expect(err).To(MatchError("storage requires credentials_json property when kind=gs"))
 
 			cfg.Storage["credentials_json"] = "foo"
 			err = cfg.Validate()
@@ -118,13 +118,13 @@ var _ = Describe("Config", func() {
 			cfg.Storage["container"] = "test"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("storage.kind must be one of: gcs, local, s3"))
+			Expect(err).To(MatchError("storage.kind must be one of: gs, local, s3"))
 		})
 
 		It("Handles Bad Path", func() {
 			cfg := rdd.NewConfiguration()
 			cfg.DatasetType = "omop-5.2-csv"
-			cfg.Storage["kind"] = "gcs"
+			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 			cfg.Storage["credentials_json"] = "/some/file.json"
 			cfg.Storage["path"] = "foo"
@@ -135,7 +135,7 @@ var _ = Describe("Config", func() {
 
 		It("Handles Bad Dataset Type", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.Storage["kind"] = "gcs"
+			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 			cfg.Storage["credentials_json"] = "/some/file.json"
 			cfg.DatasetType = "bar"
@@ -146,7 +146,7 @@ var _ = Describe("Config", func() {
 
 		It("Handles Missing Dataset Type", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.Storage["kind"] = "gcs"
+			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 			cfg.Storage["credentials_json"] = "/some/file.json"
 
