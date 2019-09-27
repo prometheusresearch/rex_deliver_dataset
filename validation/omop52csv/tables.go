@@ -200,7 +200,7 @@ var (
 			"CAUSE_SOURCE_CONCEPT_ID": integer(false),
 		},
 
-		"VISIT_OCCURANCE": {
+		"VISIT_OCCURRENCE": {
 			"VISIT_OCCURRENCE_ID":           integer(true),
 			"PERSON_ID":                     integer(true),
 			"VISIT_CONCEPT_ID":              integer(true),
@@ -220,7 +220,7 @@ var (
 			"PRECEDING_VISIT_OCCURRENCE_ID": integer(false),
 		},
 
-		"PROCEDURE_OCCURANCE": {
+		"PROCEDURE_OCCURRENCE": {
 			"PROCEDURE_OCCURRENCE_ID":     integer(true),
 			"PERSON_ID":                   integer(true),
 			"PROCEDURE_CONCEPT_ID":        integer(true),
@@ -278,7 +278,7 @@ var (
 			"DEVICE_SOURCE_CONCEPT_ID":       integer(false),
 		},
 
-		"CONDITION_OCCURRANCE": {
+		"CONDITION_OCCURRENCE": {
 			"CONDITION_OCCURRENCE_ID":       integer(true),
 			"PERSON_ID":                     integer(true),
 			"CONDITION_CONCEPT_ID":          integer(true),
