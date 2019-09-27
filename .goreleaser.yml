@@ -45,6 +45,9 @@ brews:
   - github:
       owner: prometheusresearch
       name: homebrew-public
+    commit_author:
+      name: Prometheus Research Bot
+      email: devbot@prometheusresearch.com
     folder: Formula
     homepage: https://github.com/prometheusresearch/rex_deliver_dataset
     description: A tool for delivering datasets to a RexRegistry system.
@@ -53,6 +56,9 @@ scoop:
   bucket:
     owner: prometheusresearch
     name: scoop-public
+  commit_author:
+    name: Prometheus Research Bot
+    email: devbot@prometheusresearch.com
   homepage: https://github.com/prometheusresearch/rex_deliver_dataset
   description: A tool for delivering datasets to a RexRegistry system.
   license: AGPL-3.0
