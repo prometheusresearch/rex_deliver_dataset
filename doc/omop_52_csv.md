@@ -45,11 +45,11 @@ The requirements for this type of dataset are as follows:
 * Column values must be appropriately formatted according to the types
   specified by OMOP:
   * integer
-    * Must be represented as whole numbers using arabic numerals (ASCII 48
+    * Must be represented as whole numbers using Arabic numerals (ASCII 48
       through 57)
     * Commas or other digit grouping separators are not permitted.
   * float
-    * Must be represented as decimal numbers using arabic numerals (ASCII 48
+    * Must be represented as decimal numbers using Arabic numerals (ASCII 48
       through 57)
     * A period (ASCII 46) must be used to separate the whole number from the
       fractional part.

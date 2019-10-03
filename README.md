@@ -9,7 +9,9 @@
 `rex_deliver_dataset` is a simple command-line utility for uploading file-based
 datasets into a [RexRegistry](https://www.prometheusresearch.com/) system. It
 will validate the format of the files in your dataset and then upload them to
-the system with all the required metadata.
+the system with all the required metadata. It automates all the steps necessary
+to satisfy the [requirements for delivering files to
+RexRegistry](doc/dataset_delivery_requirements.md).
 
 
 ## Installation
