@@ -48,8 +48,12 @@ type Arguments struct {
 func parseArguments() (Arguments, error) {
 	app := kingpin.New(
 		filepath.Base(os.Args[0]),
-		"Delivers a set of files to a cloud storage container for intake into"+
-			" a RexRegistry system.",
+		fmt.Sprintf(
+			"RexRegistry Dataset Delivery v%s\n\n"+
+				"Delivers a set of files to a cloud storage container for"+
+				" intake into a RexRegistry system.",
+			version,
+		),
 	)
 
 	configPath := app.Flag(

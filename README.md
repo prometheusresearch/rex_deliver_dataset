@@ -51,7 +51,7 @@ You can install `rex_deliver_dataset` onto your system in a variety of ways:
   $ git clone https://github.com/prometheusresearch/rex_deliver_dataset
   $ cd rex_deliver_dataset
   $ make init
-  $ go build cmd/rex_deliver_dataset.go
+  $ make build
   ```
 
 

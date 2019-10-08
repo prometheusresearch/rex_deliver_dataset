@@ -19,6 +19,9 @@ coverage::
 	@find . -name coverage.out | xargs gocovmerge > total_coverage.out
 	@go tool cover -html=total_coverage.out
 
+build::
+	@go build -a -ldflags "-X \"main.version=$$(git rev-parse --short HEAD)\"" -o dist/rex_deliver_dataset ./cmd/rex_deliver_dataset.go
+
 lint::
 	@${GOBIN}/revive -config revive.toml -formatter stylish ./...
 
