@@ -71,6 +71,13 @@ configuration, and if everything is valid, it will then upload those files to
 the cloud storage container described in the `storage` section of your
 configuration.
 
+If you would like to only perform the validation step on your dataset, and not
+actually upload anything, you can use the `--validate-only` parameter to do
+exactly that. It will report any issues it detects in your files and then
+terminate.
+
+    $ rex_deliver_dataset --config=my_config_file.yaml --validate-only /path/to/my/files
+
 For more information about other parameters you can use, run
 ``rex_deliver_dataset --help``.
 
