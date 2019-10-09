@@ -89,7 +89,7 @@ This configuration file is a [YAML](https://yaml.org)-formatted file that
 specifies a few properties. An example configuration is as follows:
 
 ```yaml
-dataset_type: omop-5.2-csv
+dataset_type: "omop:5.2:csv"
 
 storage:
   kind: s3
@@ -108,7 +108,7 @@ to upload. Using this information, it will perform a series of validations on
 your files to ensure they are properly formatted. This property currently
 allows the following values:
 
-* `omop-5.2-csv` for CSV-formatted files representing OMOP CDM v5.2 tables
+* `omop:5.2:csv` for CSV-formatted files representing OMOP CDM v5.2 tables
   ([specifications](doc/omop_52_csv.md))
 
 ### storage

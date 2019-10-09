@@ -201,5 +201,5 @@ func ValidateOmop52(basePath string, files []string) val.ErrorCollection {
 }
 
 func init() {
-	val.Register("omop-5.2-csv", ValidateOmop52)
+	val.Register("omop:5.2:csv", ValidateOmop52)
 }

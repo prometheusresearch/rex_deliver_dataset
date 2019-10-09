@@ -31,7 +31,7 @@ var _ = Describe("Manifest", func() {
 	Describe("CreateManifest", func() {
 		It("Works", func() {
 			config := rdd.Configuration{
-				DatasetType: "omop-5.2-csv",
+				DatasetType: "omop:5.2:csv",
 			}
 			files := []rdd.File{
 				{
@@ -48,7 +48,7 @@ var _ = Describe("Manifest", func() {
 			Expect(manifest.Files[0].Size).To(BeNumerically("==", 12345))
 			Expect(manifest.Files[0].Sha512).To(Equal("ABC123"))
 			Expect(manifest.DateCreated).To(Not(BeNil()))
-			Expect(manifest.DatasetType).To(Equal("omop-5.2-csv"))
+			Expect(manifest.DatasetType).To(Equal("omop:5.2:csv"))
 		})
 	})
 
@@ -56,7 +56,7 @@ var _ = Describe("Manifest", func() {
 		It("Works", func() {
 			config := rdd.Configuration{
 				ExecutionTime: time.Date(2009, time.November, 10, 12, 34, 56, 0, time.UTC),
-				DatasetType:   "omop-5.2-csv",
+				DatasetType:   "omop:5.2:csv",
 			}
 			files := []rdd.File{
 				{
@@ -71,7 +71,7 @@ var _ = Describe("Manifest", func() {
 
 			json, err := manifest.ToJSON()
 			Expect(err).To(Succeed())
-			Expect(string(json)).To(Equal(`{"date_created":"2009-11-10T12:34:56Z","dataset_type":"omop-5.2-csv","generator":"just a test","files":[{"name":"foo.ext","size":12345,"sha512":"ABC123"}]}`))
+			Expect(string(json)).To(Equal(`{"date_created":"2009-11-10T12:34:56Z","dataset_type":"omop:5.2:csv","generator":"just a test","files":[{"name":"foo.ext","size":12345,"sha512":"ABC123"}]}`))
 		})
 	})
 })

@@ -15,7 +15,7 @@ to the following requirements:
     * A string that identifies the type of dataset described by the manifest.
     * This property is required.
     * The following values are permitted:
-      * omop-5.2-csv
+      * omop:5.2:csv
   * files
     * An array of objects that lists all the files that are a part of the
       dataset.
@@ -39,7 +39,7 @@ An example of a Dataset Manifest is as follows:
 ```json
 {
     "date_created": "2019-05-22T12:34:56Z",
-    "dataset_type": "omop-5.2-csv",
+    "dataset_type": "omop:5.2:csv",
     "files": [
         {
             "name": "person.csv",

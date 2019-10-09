@@ -40,7 +40,7 @@ var _ = Describe("Config", func() {
 	Describe("Validate", func() {
 		It("Checks Basic Storage Props", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 
 			err := cfg.Validate()
 			Expect(err).To(MatchError("storage requires kind property"))
@@ -57,7 +57,7 @@ var _ = Describe("Config", func() {
 
 		It("Checks S3 Storage", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 			cfg.Storage["kind"] = "s3"
 			cfg.Storage["container"] = "test"
 
@@ -79,7 +79,7 @@ var _ = Describe("Config", func() {
 
 		It("Checks GCS Storage", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 
@@ -93,7 +93,7 @@ var _ = Describe("Config", func() {
 
 		It("Checks Local Storage", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 			cfg.Storage["kind"] = "local"
 			cfg.Storage["container"] = "test"
 
@@ -113,7 +113,7 @@ var _ = Describe("Config", func() {
 
 		It("Handles Unknown Kind", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 			cfg.Storage["kind"] = "foo"
 			cfg.Storage["container"] = "test"
 
@@ -123,7 +123,7 @@ var _ = Describe("Config", func() {
 
 		It("Handles Bad Path", func() {
 			cfg := rdd.NewConfiguration()
-			cfg.DatasetType = "omop-5.2-csv"
+			cfg.DatasetType = "omop:5.2:csv"
 			cfg.Storage["kind"] = "gs"
 			cfg.Storage["container"] = "test"
 			cfg.Storage["credentials_json"] = "/some/file.json"
@@ -141,7 +141,7 @@ var _ = Describe("Config", func() {
 			cfg.DatasetType = "bar"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("dataset_type must be one of: omop-5.2-csv"))
+			Expect(err).To(MatchError("dataset_type must be one of: omop:5.2:csv"))
 		})
 
 		It("Handles Missing Dataset Type", func() {
@@ -151,20 +151,20 @@ var _ = Describe("Config", func() {
 			cfg.Storage["credentials_json"] = "/some/file.json"
 
 			err := cfg.Validate()
-			Expect(err).To(MatchError("dataset_type must be one of: omop-5.2-csv"))
+			Expect(err).To(MatchError("dataset_type must be one of: omop:5.2:csv"))
 		})
 	})
 
 	Describe("ReadConfig", func() {
 		It("Works", func() {
-			content := []byte("{dataset_type: omop-5.2-csv, storage: {kind: s3, container: test, access_key: foo, secret_key: bar, region: baz}}")
+			content := []byte("{dataset_type: omop:5.2:csv, storage: {kind: s3, container: test, access_key: foo, secret_key: bar, region: baz}}")
 			file := makeTempFile(content)
 			defer os.Remove(file.Name())
 
 			cfg, err := rdd.ReadConfig(file.Name())
 			Expect(err).To(Succeed())
 			Expect(cfg.ConfigurationPath).To(Equal(file.Name()))
-			Expect(cfg.DatasetType).To(Equal("omop-5.2-csv"))
+			Expect(cfg.DatasetType).To(Equal("omop:5.2:csv"))
 			Expect(cfg.Storage["kind"]).To(Equal("s3"))
 			Expect(cfg.Storage["container"]).To(Equal("test"))
 			Expect(cfg.Storage["access_key"]).To(Equal("foo"))

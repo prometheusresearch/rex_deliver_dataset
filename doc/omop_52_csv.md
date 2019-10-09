@@ -1,6 +1,6 @@
 # OMOP CDM v5.2 CSV Datasets
 
-When you specify a `dataset_type` of `omop-5.2-csv` in your configuration,
+When you specify a `dataset_type` of `omop:5.2:csv` in your configuration,
 `rex_deliver_dataset` will allow a set of CSV files structured according to
 [v5.2 of the OMOP Common Data
 Model](https://github.com/OHDSI/CommonDataModel/raw/v5.2.2/OMOP_CDM_v5_2.pdf).
