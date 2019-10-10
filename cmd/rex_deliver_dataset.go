@@ -26,6 +26,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -63,8 +64,8 @@ func parseArguments() (Arguments, error) {
 
 	validationErrors := app.Flag(
 		"validation-errors",
-		"Path to the file to write validation errors to (as a CSV),"+
-			" if any are encountered.",
+		"If provided, validation errors will be written as a CSV to the file"+
+			" name specified instead of outputting the errors to the console.",
 	).Short('e').OverrideDefaultFromEnvar("RDD_VALIDATION_ERRORS").String()
 
 	validateOnly := app.Flag(
@@ -159,7 +160,7 @@ func showValidationErrors(errors val.ErrorCollection) {
 	sort.Strings(files)
 
 	for _, file := range files {
-		fmt.Printf("%s:\n", file)
+		fmt.Printf("  %s:\n", file)
 
 		fileErrors := errors.Errors[file]
 		for _, err := range fileErrors {
@@ -196,6 +197,8 @@ func writeValidationErrors(errors val.ErrorCollection, fileName string) error {
 
 	files := errors.GetFiles()
 	sort.Strings(files)
+	fmt.Printf("  Failed Files: %s\n", strings.Join(files, ", "))
+
 	for _, inputFile := range files {
 		record[0] = inputFile
 		fileErrors := errors.Errors[inputFile]
@@ -214,6 +217,8 @@ func writeValidationErrors(errors val.ErrorCollection, fileName string) error {
 			}
 		}
 	}
+
+	fmt.Printf("  Full Error Report Saved to: %s\n", filePath)
 
 	return nil
 }
@@ -284,13 +289,14 @@ func main() {
 
 	errors := validateFiles(config, files)
 	if errors.HasErrors() {
-		showValidationErrors(errors)
 		if args.ValidationErrorPath != "" {
 			err := writeValidationErrors(errors, args.ValidationErrorPath)
 			kingpin.FatalIfError(
 				err,
 				"Could not write to validation error file",
 			)
+		} else {
+			showValidationErrors(errors)
 		}
 		kingpin.Fatalf("Files did not satisfy validation rules")
 	}
