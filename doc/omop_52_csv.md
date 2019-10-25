@@ -65,7 +65,7 @@ The requirements for this type of dataset are as follows:
     * If the timezone should be interpreted as UTC, then either no timezone
       offset should be specified, or use the single letter `Z` in the place
       of the offset (e.g. `2019-05-22T12:34:56Z`)
-  * Fractional seconds are not allowed.
+    * Fractional seconds are not allowed.
 * Columns defined as required in the OMOP specification must have values
   provided in every record.
 
