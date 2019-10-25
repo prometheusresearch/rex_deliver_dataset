@@ -208,6 +208,7 @@ var _ = Describe("ValidateOmop52", func() {
 				badDatasetPath,
 				[]string{
 					"person.csv",
+					"note_nlp.csv",
 				},
 			)
 
@@ -225,6 +226,18 @@ var _ = Describe("ValidateOmop52", func() {
 				val.Error{
 					Message: "extraneous or missing \" in quoted-field",
 					Record:  3,
+					Column:  "",
+				},
+			))
+			Expect(errors.Errors["note_nlp.csv"]).To(ConsistOf(
+				val.Error{
+					Message: "extraneous or missing \" in quoted-field",
+					Record:  0,
+					Column:  "",
+				},
+				val.Error{
+					Message: "No column headers found",
+					Record:  0,
 					Column:  "",
 				},
 			))
