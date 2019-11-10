@@ -19,6 +19,7 @@
 package rexdeliverdataset
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -34,7 +35,14 @@ type File struct {
 func CatalogDirectory(rootPath string) ([]File, error) {
 	var files []File
 
-	err := filepath.Walk(
+	info, err := os.Stat(rootPath)
+	if err != nil {
+		return files, err
+	} else if !info.IsDir() {
+		return files, fmt.Errorf("%s is not a directory", rootPath)
+	}
+
+	err = filepath.Walk(
 		rootPath,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {

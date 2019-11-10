@@ -66,5 +66,20 @@ var _ = Describe("Catalog", func() {
 				Expect(files).To(HaveLen(3))
 			}
 		})
+
+		It("Handles missing directories", func() {
+			path, _ := rdd.AbsPath("./test_datasets/doesntexist")
+			files, err := rdd.CatalogDirectory(path)
+			Expect(files).To(BeEmpty())
+			Expect(err).To(Not(Succeed()))
+		})
+
+		It("Handles non-directories", func() {
+			path, _ := rdd.AbsPath("./test_datasets/catalog/foo")
+			files, err := rdd.CatalogDirectory(path)
+			Expect(files).To(BeEmpty())
+			Expect(err).To(Not(Succeed()))
+			Expect(err.Error()).To(HaveSuffix("foo is not a directory"))
+		})
 	})
 })
