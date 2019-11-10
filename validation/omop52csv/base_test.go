@@ -136,6 +136,37 @@ var _ = Describe("ValidateOmop52", func() {
 			))
 		})
 
+		It("Handles odd file names", func() {
+			errors := omop.ValidateOmop52(
+				datasetPath,
+				[]string{
+					".DS_Store",
+					".foo.csv",
+				},
+			)
+
+			Expect(errors.Errors[".DS_Store"]).To(ConsistOf(
+				val.Error{
+					Message: "Files must have a .csv extension",
+					Record:  0,
+					Column:  "",
+				},
+				val.Error{
+					Message: ".DS_Store is not an OMOP table name",
+					Record:  0,
+					Column:  "",
+				},
+			))
+
+			Expect(errors.Errors[".foo.csv"]).To(ConsistOf(
+				val.Error{
+					Message: ".FOO is not an OMOP table name",
+					Record:  0,
+					Column:  "",
+				},
+			))
+		})
+
 		It("Handles missing files", func() {
 			errors := omop.ValidateOmop52(
 				datasetPath,

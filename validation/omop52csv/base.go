@@ -181,6 +181,9 @@ func ValidateOmop52(basePath string, files []string) val.ErrorCollection {
 
 		table, tableDefinition := getTableDefinitionForFile(name)
 		if tableDefinition == nil {
+			if table == "" {
+				table = baseName
+			}
 			errors.FileError(name, "%s is not an OMOP table name", table)
 		} else {
 			_, ok := seenTables[table]
