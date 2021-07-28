@@ -266,7 +266,7 @@ var (
 			"PERSON_ID":                      integer(true),
 			"DEVICE_CONCEPT_ID":              integer(true),
 			"DEVICE_EXPOSURE_START_DATE":     date(true),
-			"DEVICE_EXPOSURE_START_DATETIME": datetime(true),
+			"DEVICE_EXPOSURE_START_DATETIME": datetime(false),
 			"DEVICE_EXPOSURE_END_DATE":       date(false),
 			"DEVICE_EXPOSURE_END_DATETIME":   datetime(false),
 			"DEVICE_TYPE_CONCEPT_ID":         integer(true),
