@@ -56,12 +56,12 @@ var _ = Describe("Catalog", func() {
 			if runtime.GOOS == "windows" {
 				// Our repo has tracks "stuff" as a symlink to "foo", but
 				// Windows doesn't handle it when the repo is checked out.
-				Expect(files).To(HaveLen(4))
 				Expect(files).To(ContainElement(rdd.File{
 					Name:     "stuff",
 					FullPath: filepath.Join(path, "stuff"),
 					Size:     3,
 				}))
+				Expect(files).To(HaveLen(4))
 			} else {
 				Expect(files).To(HaveLen(3))
 			}
