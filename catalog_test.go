@@ -20,7 +20,6 @@ package rexdeliverdataset_test
 
 import (
 	"path/filepath"
-	"runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
