@@ -20,7 +20,6 @@ package rexdeliverdataset_test
 
 import (
 	"path/filepath"
-	"runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -53,18 +52,7 @@ var _ = Describe("Catalog", func() {
 				Size:     26,
 			}))
 
-			if runtime.GOOS == "windows" {
-				// Our repo has tracks "stuff" as a symlink to "foo", but
-				// Windows doesn't handle it when the repo is checked out.
-				Expect(files).To(HaveLen(4))
-				Expect(files).To(ContainElement(rdd.File{
-					Name:     "stuff",
-					FullPath: filepath.Join(path, "stuff"),
-					Size:     3,
-				}))
-			} else {
-				Expect(files).To(HaveLen(3))
-			}
+			Expect(files).To(HaveLen(3))
 		})
 
 		It("Handles missing directories", func() {
