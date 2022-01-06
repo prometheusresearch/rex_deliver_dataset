@@ -225,7 +225,7 @@ var (
 			"PERSON_ID":                   integer(true),
 			"PROCEDURE_CONCEPT_ID":        integer(true),
 			"PROCEDURE_DATE":              date(true),
-			"PROCEDURE_DATETIME":          datetime(true),
+			"PROCEDURE_DATETIME":          datetime(false),
 			"PROCEDURE_TYPE_CONCEPT_ID":   integer(true),
 			"MODIFIER_CONCEPT_ID":         integer(false),
 			"QUANTITY":                    integer(false),
