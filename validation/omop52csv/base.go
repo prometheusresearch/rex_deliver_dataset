@@ -111,6 +111,8 @@ func checkFileContents(
 	var recNumber uint32
 	var headerErrors []string
 
+	seenRecords := make(map[string]bool)
+
 	csvReader := csv.NewReader(fileReader)
 	csvReader.ReuseRecord = true
 
@@ -154,6 +156,11 @@ func checkFileContents(
 					err.Error,
 				)
 			}
+			_, ok := seenRecords[record[0]]
+			if ok {
+				errors.RecordError(file, recNumber-1, "Primary key should be unique in CSV file")
+			}
+			seenRecords[record[0]] = true
 		}
 	}
 
