@@ -22,7 +22,7 @@ errorCode = 1
 [rule.argument-limit]
     arguments=[5]
 [rule.cyclomatic]
-    arguments=[11]
+    arguments=[12]
 [rule.empty-block]
 [rule.superfluous-else]
 [rule.confusing-naming]
