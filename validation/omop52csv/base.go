@@ -158,7 +158,11 @@ func checkFileContents(
 			}
 			_, ok := seenRecords[record[0]]
 			if ok {
-				errors.RecordError(file, recNumber-1, "Primary key should be unique in CSV file")
+				errors.RecordError(
+					file, 
+					recNumber-1, 
+					"Primary key should be unique in CSV file"
+				)
 			}
 			seenRecords[record[0]] = true
 		}
