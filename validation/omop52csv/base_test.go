@@ -231,6 +231,23 @@ var _ = Describe("ValidateOmop52", func() {
 				},
 			))
 		})
+
+		It("Has wrong line endings", func() {
+			errors := omop.ValidateOmop52(
+				badDatasetPath,
+				[]string{
+					"care_site.csv",
+				},
+			)
+
+			Expect(errors.Errors["care_site.csv"]).To(ConsistOf(
+				val.Error{
+					Message: "Invalid CRLF line endings. LF line endings required",
+					Record:  0,
+					Column:  "",
+				},
+			))
+		})
 	})
 
 	Describe("Record Issues", func() {
@@ -240,6 +257,7 @@ var _ = Describe("ValidateOmop52", func() {
 				[]string{
 					"person.csv",
 					"note_nlp.csv",
+					"location.csv",
 				},
 			)
 
@@ -270,6 +288,13 @@ var _ = Describe("ValidateOmop52", func() {
 					Message: "No column headers found",
 					Record:  0,
 					Column:  "",
+				},
+			))
+			Expect(errors.Errors["location.csv"]).To(ConsistOf(
+				val.Error{
+					Message: "Invalid character encoding, allowed encodings are ASCII and UTF-8",
+					Record:  2,
+					Column:  "ADDRESS_1",
 				},
 			))
 		})

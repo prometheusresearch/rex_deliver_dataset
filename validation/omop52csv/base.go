@@ -19,6 +19,8 @@
 package omop52csv
 
 import (
+	"bufio"
+	"bytes"
 	"encoding/csv"
 	"fmt"
 	"io"
@@ -94,6 +96,36 @@ func makeRecordValidator(
 	return recValidator, errors
 }
 
+func checkCRLFLineEndings(
+	basePath string,
+	file string,
+	errors val.ErrorCollection,
+) {
+	f, err := os.Open(filepath.Join(basePath, file))
+	if err != nil {
+		return
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	scanner.Split(bufio.ScanBytes)
+
+	for scanner.Scan() {
+		b := scanner.Bytes()
+
+		if bytes.Equal(b, []byte{'\r'}) {
+			errors.FileError(file,
+				"Invalid CRLF line endings. LF line endings required")
+
+			break
+		}
+		//Break on the first line \n encountered
+		if bytes.Equal(b, []byte{'\n'}) {
+			break
+		}
+	}
+}
+
 func checkFileContents(
 	basePath string,
 	file string,
@@ -159,8 +191,8 @@ func checkFileContents(
 			_, ok := seenRecords[record[0]]
 			if ok {
 				errors.RecordError(
-					file, 
-					recNumber-1, 
+					file,
+					recNumber-1,
 					"Primary key should be unique in CSV file",
 				)
 			}
@@ -211,8 +243,8 @@ func ValidateOmop52(basePath string, files []string) val.ErrorCollection {
 		if errors.FileHasErrors(name) {
 			continue
 		}
-
 		checkFileContents(basePath, name, tableDefinition, errors)
+		checkCRLFLineEndings(basePath, name, errors)
 	}
 
 	return errors

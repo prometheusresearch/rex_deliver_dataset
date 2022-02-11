@@ -2,3 +2,4 @@
 dist
 coverage.out
 total_coverage.out
+test_datasets/omop_52_csv_bad/care_site.csv eol=crlf

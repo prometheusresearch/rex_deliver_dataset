@@ -24,6 +24,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 type fieldValidator func(string) string
@@ -44,6 +45,10 @@ func text(required bool, maxLength uint) fieldValidator {
 				"Value cannot be longer than %d characters",
 				maxLength,
 			)
+		}
+		if !utf8.ValidString(value) {
+			return fmt.Sprint("Invalid character encoding",
+				", allowed encodings are ASCII and UTF-8")
 		}
 		return ""
 	}
