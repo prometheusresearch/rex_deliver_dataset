@@ -231,23 +231,6 @@ var _ = Describe("ValidateOmop52", func() {
 				},
 			))
 		})
-
-		It("Has wrong line endings", func() {
-			errors := omop.ValidateOmop52(
-				badDatasetPath,
-				[]string{
-					"care_site.csv",
-				},
-			)
-
-			Expect(errors.Errors["care_site.csv"]).To(ConsistOf(
-				val.Error{
-					Message: "Invalid CRLF line endings. LF line endings required",
-					Record:  0,
-					Column:  "",
-				},
-			))
-		})
 	})
 
 	Describe("Record Issues", func() {
