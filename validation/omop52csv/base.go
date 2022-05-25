@@ -138,6 +138,10 @@ func checkFileContents(
 			// The record is fundamentally broken somehow
 			csvErr := strings.SplitAfter(err.Error(), ": ")
 			errors.RecordError(file, recNumber-1, csvErr[len(csvErr)-1])
+
+			if recValidator == nil {
+				break
+			}
 		} else if recNumber == 1 {
 			// This should be the header record
 			recValidator, headerErrors = makeRecordValidator(

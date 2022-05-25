@@ -540,7 +540,7 @@ func getTableDefinitionForFile(name string) (string, omopTable) {
 	tableName := getTableName(name)
 	return tableName, tableDefinitions[tableName]
 }
-//revive:disable
+
 func getPrimaryKeyForFile(name string) (string){
 	tableName := getTableName(name)
 	return primaryKeyDefinitions[tableName]
