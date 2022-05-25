@@ -66,7 +66,6 @@ func makeRecordValidator(
 			validators[idx].Validator = validator
 		}
 	}
-
 	for column := range definition {
 		_, ok := foundHeaders[column]
 		if !ok {
@@ -94,6 +93,17 @@ func makeRecordValidator(
 	return recValidator, errors
 }
 
+func getPrimaryKeyIndex(file string, record []string) (int){
+	var primaryKeyIndex = -1
+	// primary keys are defined in tales.go primaryKeyDefinitions
+	for idx, columnName := range record {
+		if strings.ToUpper(columnName) == getPrimaryKeyForFile(file) {
+			primaryKeyIndex = idx
+		}
+	}
+	return primaryKeyIndex
+}
+
 func checkFileContents(
 	basePath string,
 	file string,
@@ -110,6 +120,7 @@ func checkFileContents(
 	var recValidator recordValidator
 	var recNumber uint32
 	var headerErrors []string
+	var primaryKeyIndex int
 
 	seenRecords := make(map[string]bool)
 
@@ -127,10 +138,6 @@ func checkFileContents(
 			// The record is fundamentally broken somehow
 			csvErr := strings.SplitAfter(err.Error(), ": ")
 			errors.RecordError(file, recNumber-1, csvErr[len(csvErr)-1])
-
-			if recValidator == nil {
-				break
-			}
 		} else if recNumber == 1 {
 			// This should be the header record
 			recValidator, headerErrors = makeRecordValidator(
@@ -145,6 +152,8 @@ func checkFileContents(
 				// The headers are hosed, don't bother with the file content.
 				break
 			}
+			// primary keys are defined in tales.go primaryKeyDefinitions
+			primaryKeyIndex = getPrimaryKeyIndex(file, record)
 		} else {
 			// This is a data record
 			recErrors := recValidator(record)
@@ -156,15 +165,18 @@ func checkFileContents(
 					err.Error,
 				)
 			}
-			_, ok := seenRecords[record[0]]
-			if ok {
-				errors.RecordError(
-					file,
-					recNumber-1,
-					"Primary key should be unique in CSV file",
-				)
+			// if table doesnt have primary key dont check uniqueness 
+			if primaryKeyIndex != -1 {
+				_, ok := seenRecords[record[primaryKeyIndex]]
+				if ok {
+					errors.RecordError(
+						file,
+						recNumber-1,
+						"Primary key should be unique in CSV file",
+					)
+				}
+				seenRecords[record[primaryKeyIndex]] = true
 			}
-			seenRecords[record[0]] = true
 		}
 	}
 

@@ -502,9 +502,46 @@ var (
 	}
 )
 
-func getTableDefinitionForFile(name string) (string, omopTable) {
+var primaryKeyDefinitions = map[string]string{
+	"CDM_SOURCE": "CDM_SOURCE_NAME",
+	"PERSON": "PERSON_ID",
+	"OBSERVATION_PERIOD": "OBSERVATION_PERIOD_ID",
+	"SPECIMEN": "SPECIMEN_ID",
+	"DEATH": "",
+	"VISIT_OCCURRENCE": "VISIT_OCCURRENCE_ID",
+	"PROCEDURE_OCCURRENCE": "PROCEDURE_OCCURRENCE_ID",
+	"DRUG_EXPOSURE": "DRUG_EXPOSURE_ID",
+	"DEVICE_EXPOSURE": "DEVICE_EXPOSURE_ID",
+	"CONDITION_OCCURRENCE": "CONDITION_OCCURRENCE_ID",
+	"MEASUREMENT": "MEASUREMENT_ID",
+	"NOTE": "NOTE_ID",
+	"NOTE_NLP": "NOTE_NLP_ID",
+	"OBSERVATION": "OBSERVATION_ID",
+	"FACT_RELATIONSHIP": "",
+	"LOCATION": "LOCATION_ID",
+	"CARE_SITE": "CARE_SITE_ID",
+	"PROVIDER": "PROVIDER_ID",
+	"PAYER_PLAN_PERIOD": "PAYER_PLAN_PERIOD_ID",
+	"COST": "COST_ID",
+	"COHORT": "COHORT_DEFINITION_ID",
+	"COHORT_ATTRIBUTE": "ATTRIBUTE_DEFINITION_ID",
+	"DRUG_ERA": "DRUG_ERA_ID",
+	"DOSE_ERA": "DOSE_ERA_ID",
+	"CONDITION_ERA": "CONDITION_ERA_ID",
+}
+
+func getTableName(name string) (string) {
 	baseName := filepath.Base(name)
 	ext := filepath.Ext(baseName)
-	tableName := strings.ToUpper(baseName[:len(baseName)-len(ext)])
+	return strings.ToUpper(baseName[:len(baseName)-len(ext)])
+}
+
+func getTableDefinitionForFile(name string) (string, omopTable) {
+	tableName := getTableName(name)
 	return tableName, tableDefinitions[tableName]
+}
+//revive:disable
+func getPrimaryKeyForFile(name string) (string){
+	tableName := getTableName(name)
+	return primaryKeyDefinitions[tableName]
 }
