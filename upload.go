@@ -24,10 +24,10 @@ import (
 	"io"
 	"path"
 
-	"github.com/c2fo/vfs/v5"
-	gs "github.com/c2fo/vfs/v5/backend/gs"
-	local "github.com/c2fo/vfs/v5/backend/os"
-	s3 "github.com/c2fo/vfs/v5/backend/s3"
+	"github.com/c2fo/vfs/v6"
+	gs "github.com/c2fo/vfs/v6/backend/gs"
+	local "github.com/c2fo/vfs/v6/backend/os"
+	s3 "github.com/c2fo/vfs/v6/backend/s3"
 )
 
 type internalUploader struct {
