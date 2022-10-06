@@ -28,6 +28,7 @@ require (
 	github.com/googleapis/go-type-adapters v1.0.0 // indirect
 	github.com/hpcloud/tail v1.0.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
+    github.com/mgechev/revive v0.0.0-20190910172647-84deee41635a // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.4.0 // indirect
