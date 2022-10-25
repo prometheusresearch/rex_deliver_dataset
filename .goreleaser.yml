@@ -42,7 +42,7 @@ nfpms:
       - rpm
 
 brews:
-  - github:
+  - tap:
       owner: prometheusresearch
       name: homebrew-public
     commit_author:
