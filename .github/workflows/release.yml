@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Run GoReleaser
-        uses: docker://goreleaser/goreleaser:v1.10.3
+        uses: docker://goreleaser/goreleaser:v1.11.5
         env:
           GITHUB_TOKEN: ${{ secrets.GORELEASER_GITHUB_TOKEN }}
         with:
